@@ -1,14 +1,23 @@
-var dataset = require('./dataset.json');
+var dataset = require("./dataset.json");
+const bankBalances = dataset.bankBalances;
 
 /*
   create an array with accounts from bankBalances that are
   greater than 100000
   assign the resulting new array to `hundredThousandairs`
 */
-var hundredThousandairs = null;
+var hundredThousandairs = bankBalances.filter(function(element) {
+  return element.amount > 100000;
+});
 
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
-var sumOfBankBalances = null;
+var sumOfBankBalances = bankBalances
+  .map(function(element) {
+    return parseInt(element.amount);
+  })
+  .reduce(function(p, c) {
+    return p + c;
+  });
 
 /*
   from each of the following states:
@@ -21,7 +30,17 @@ var sumOfBankBalances = null;
   take each `amount` and add 18.9% interest to it rounded to the nearest dollar 
   and then sum it all up into one value saved to `sumOfInterests`
  */
-var sumOfInterests = null;
+var sumOfInterests = bankBalances
+  .filter(function(e) {
+    let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
+    return states.indexOf(e.state) !== -1;
+  })
+  .map(function(e) {
+    return Math.round(e.amount * 0.189);
+  })
+  .reduce(function(p, c) {
+    return p + c;
+  });
 
 /*
   aggregate the sum of bankBalance amounts
@@ -58,7 +77,23 @@ var stateSums = null;
     round this number to the nearest dollar before moving on.
   )
  */
-var sumOfHighInterests = null;
+var sumOfHighInterests = bankBalances
+  .filter(function(e) {
+    let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
+    return states.indexOf(e.state) === -1;
+  })
+  .map(function(e) {
+    console.log(e);
+    return Math.round(e.amount * 0.189);
+  })
+  .filter(function(num) {
+    return num > 50000;
+  })
+  .reduce(function(p, c) {
+    console.log(p);
+    console.log(c);
+    return p + c;
+  });
 
 /*
   set `lowerSumStates` to be an array of two letter state
@@ -106,15 +141,14 @@ var areStatesInHigherStateSum = null;
  */
 var anyStatesInHigherStateSum = null;
 
-
 module.exports = {
-  hundredThousandairs : hundredThousandairs,
-  sumOfBankBalances : sumOfBankBalances,
-  sumOfInterests : sumOfInterests,
-  sumOfHighInterests : sumOfHighInterests,
-  stateSums : stateSums,
-  lowerSumStates : lowerSumStates,
-  higherStateSums : higherStateSums,
-  areStatesInHigherStateSum : areStatesInHigherStateSum,
-  anyStatesInHigherStateSum : anyStatesInHigherStateSum
+  hundredThousandairs: hundredThousandairs,
+  sumOfBankBalances: sumOfBankBalances,
+  sumOfInterests: sumOfInterests,
+  sumOfHighInterests: sumOfHighInterests,
+  stateSums: stateSums,
+  lowerSumStates: lowerSumStates,
+  higherStateSums: higherStateSums,
+  areStatesInHigherStateSum: areStatesInHigherStateSum,
+  anyStatesInHigherStateSum: anyStatesInHigherStateSum
 };
