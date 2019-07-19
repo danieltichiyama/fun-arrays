@@ -58,7 +58,16 @@ var sumOfInterests = bankBalances
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = null;
+var stateSums = bankBalances.reduce(function(p, c) {
+  let state = c.state;
+  let amount = parseInt(c.amount);
+  if (!p[state]) {
+    p[state] = amount;
+  } else {
+    p[state] += amount;
+  }
+  return p;
+}, {});
 
 /*
   for all states *NOT* in the following states:
@@ -77,21 +86,18 @@ var stateSums = null;
     round this number to the nearest dollar before moving on.
   )
  */
-var sumOfHighInterests = bankBalances
+var sumOfHighInterests = Object.entries(stateSums)
   .filter(function(e) {
     let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
-    return states.indexOf(e.state) === -1;
+    return states.indexOf(e[0]) === -1;
   })
   .map(function(e) {
-    console.log(e);
-    return Math.round(e.amount * 0.189);
+    return Math.round(e[1] * 0.189);
   })
-  .filter(function(num) {
-    return num > 50000;
+  .filter(function(e) {
+    return e > 50000;
   })
   .reduce(function(p, c) {
-    console.log(p);
-    console.log(c);
     return p + c;
   });
 
@@ -100,7 +106,13 @@ var sumOfHighInterests = bankBalances
   abbreviations of each state where the sum of amounts
   in the state is less than 1,000,000
  */
-var lowerSumStates = null;
+var lowerSumStates = Object.entries(stateSums)
+  .filter(function(e) {
+    return e[1] < 1000000;
+  })
+  .map(function(e) {
+    return e[0];
+  });
 
 /*
   aggregate the sum of each state into one hash table

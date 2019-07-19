@@ -25,24 +25,24 @@ describe("Array Methods", function() {
     });
   });
 
-  // describe('stateSums', function() {
-  //   it('should be a hash table', function() {
-  //     chai.assert.isObject(arrayMethods.stateSums);
-  //   });
+  describe("stateSums", function() {
+    it("should be a hash table", function() {
+      chai.assert.isObject(arrayMethods.stateSums);
+    });
 
-  //   it('should have a key for each state', function() {
-  //     let stateKeys = Object.keys(arrayMethods.stateSums);
-  //     stateKeys.should.have.length(37);
-  //     stateKeys.should.include.members(['ME', 'WI', 'ID', 'HI']);
-  //   });
+    it("should have a key for each state", function() {
+      let stateKeys = Object.keys(arrayMethods.stateSums);
+      stateKeys.should.have.length(37);
+      stateKeys.should.include.members(["ME", "WI", "ID", "HI"]);
+    });
 
-  //   it('should have a keys with values being the sum for each state, rounded to the nearest dollar', function() {
-  //     arrayMethods.stateSums.ME.should.be.equal(2783816);
-  //     arrayMethods.stateSums.WI.should.be.equal(2958667);
-  //     arrayMethods.stateSums.ID.should.be.equal(461647);
-  //     arrayMethods.stateSums.HI.should.be.equal(901770);
-  //   });
-  // });
+    it("should have a keys with values being the sum for each state, rounded to the nearest dollar", function() {
+      arrayMethods.stateSums.ME.should.be.equal(2783816);
+      arrayMethods.stateSums.WI.should.be.equal(2958667);
+      arrayMethods.stateSums.ID.should.be.equal(461647);
+      arrayMethods.stateSums.HI.should.be.equal(901770);
+    });
+  });
 
   describe("sumOfHighInterests", function() {
     it("should be the sum the 18.9% interest for all amounts in bankBalances, where the amount of the sum of interests in that state is greater than 50,000, in the selected states, rounded to the nearest dollar", function() {
