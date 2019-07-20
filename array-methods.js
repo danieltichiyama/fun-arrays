@@ -118,7 +118,14 @@ var lowerSumStates = Object.entries(stateSums)
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
-var higherStateSums = null;
+
+var higherStateSums = Object.entries(stateSums).reduce(function(p, c) {
+  let amount = c[1];
+  if (amount > 1000000) {
+    p += amount;
+  }
+  return p;
+}, 0);
 
 /*
   from each of the following states:
@@ -135,7 +142,14 @@ var higherStateSums = null;
   if true set `areStatesInHigherStateSum` to `true`
   otherwise set it to `false`
  */
-var areStatesInHigherStateSum = null;
+var areStatesInHigherStateSum = Object.entries(stateSums)
+  .filter(function(e) {
+    let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
+    return states.indexOf(e[0]) !== -1;
+  })
+  .every(function(e) {
+    return e[1] > 2550000;
+  });
 
 /*
   Stretch Goal && Final Boss
@@ -151,7 +165,14 @@ var areStatesInHigherStateSum = null;
   have a sum of account values greater than 2,550,000
   otherwise set it to be `false`
  */
-var anyStatesInHigherStateSum = null;
+var anyStatesInHigherStateSum = !Object.entries(stateSums)
+  .filter(function(e) {
+    let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
+    return states.indexOf(e[0]) !== -1;
+  })
+  .every(function(e) {
+    return e[1] < 2550000;
+  });
 
 module.exports = {
   hundredThousandairs: hundredThousandairs,
