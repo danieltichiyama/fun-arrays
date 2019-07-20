@@ -15,8 +15,8 @@ var sumOfBankBalances = bankBalances
   .map(function(element) {
     return parseInt(element.amount);
   })
-  .reduce(function(p, c) {
-    return p + c;
+  .reduce(function(previous, current) {
+    return previous + current;
   });
 
 /*
@@ -31,15 +31,15 @@ var sumOfBankBalances = bankBalances
   and then sum it all up into one value saved to `sumOfInterests`
  */
 var sumOfInterests = bankBalances
-  .filter(function(e) {
+  .filter(function(element) {
     let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
-    return states.indexOf(e.state) !== -1;
+    return states.indexOf(element.state) !== -1;
   })
-  .map(function(e) {
-    return Math.round(e.amount * 0.189);
+  .map(function(element) {
+    return Math.round(element.amount * 0.189);
   })
-  .reduce(function(p, c) {
-    return p + c;
+  .reduce(function(previous, current) {
+    return previous + current;
   });
 
 /*
@@ -58,15 +58,15 @@ var sumOfInterests = bankBalances
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = bankBalances.reduce(function(p, c) {
-  let state = c.state;
-  let amount = parseInt(c.amount);
-  if (!p[state]) {
-    p[state] = amount;
+var stateSums = bankBalances.reduce(function(previous, current) {
+  let state = current.state;
+  let amount = parseInt(current.amount);
+  if (!previous[state]) {
+    previous[state] = amount;
   } else {
-    p[state] += amount;
+    previous[state] += amount;
   }
-  return p;
+  return previous;
 }, {});
 
 /*
@@ -87,18 +87,18 @@ var stateSums = bankBalances.reduce(function(p, c) {
   )
  */
 var sumOfHighInterests = Object.entries(stateSums)
-  .filter(function(e) {
+  .filter(function(element) {
     let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
-    return states.indexOf(e[0]) === -1;
+    return states.indexOf(element[0]) === -1;
   })
-  .map(function(e) {
-    return Math.round(e[1] * 0.189);
+  .map(function(element) {
+    return Math.round(element[1] * 0.189);
   })
-  .filter(function(e) {
-    return e > 50000;
+  .filter(function(element) {
+    return element > 50000;
   })
-  .reduce(function(p, c) {
-    return p + c;
+  .reduce(function(previous, current) {
+    return previous + current;
   });
 
 /*
@@ -107,11 +107,11 @@ var sumOfHighInterests = Object.entries(stateSums)
   in the state is less than 1,000,000
  */
 var lowerSumStates = Object.entries(stateSums)
-  .filter(function(e) {
-    return e[1] < 1000000;
+  .filter(function(element) {
+    return element[1] < 1000000;
   })
-  .map(function(e) {
-    return e[0];
+  .map(function(element) {
+    return element[0];
   });
 
 /*
@@ -119,13 +119,17 @@ var lowerSumStates = Object.entries(stateSums)
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
 
-var higherStateSums = Object.entries(stateSums).reduce(function(p, c) {
-  let amount = c[1];
+var higherStateSums = Object.entries(stateSums).reduce(function(
+  previous,
+  current
+) {
+  let amount = current[1];
   if (amount > 1000000) {
-    p += amount;
+    previous += amount;
   }
-  return p;
-}, 0);
+  return previous;
+},
+0);
 
 /*
   from each of the following states:
@@ -143,12 +147,12 @@ var higherStateSums = Object.entries(stateSums).reduce(function(p, c) {
   otherwise set it to `false`
  */
 var areStatesInHigherStateSum = Object.entries(stateSums)
-  .filter(function(e) {
+  .filter(function(element) {
     let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
-    return states.indexOf(e[0]) !== -1;
+    return states.indexOf(element[0]) !== -1;
   })
-  .every(function(e) {
-    return e[1] > 2550000;
+  .every(function(element) {
+    return element[1] > 2550000;
   });
 
 /*
@@ -166,12 +170,12 @@ var areStatesInHigherStateSum = Object.entries(stateSums)
   otherwise set it to be `false`
  */
 var anyStatesInHigherStateSum = !Object.entries(stateSums)
-  .filter(function(e) {
+  .filter(function(element) {
     let states = ["WI", "IL", "WY", "OH", "GA", "DE"];
-    return states.indexOf(e[0]) !== -1;
+    return states.indexOf(element[0]) !== -1;
   })
-  .every(function(e) {
-    return e[1] < 2550000;
+  .every(function(element) {
+    return element[1] < 2550000;
   });
 
 module.exports = {
